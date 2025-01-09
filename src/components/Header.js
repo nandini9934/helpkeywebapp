@@ -40,15 +40,15 @@ const Header = () => {
 
       {/* Mobile View for Links and Auth Links */}
       <div className={`md:hidden mt-2 space-y-2 pl-4 ${isMenuOpen ? 'block' : 'hidden'}`}>
-        <a href="#" className="block text-sm text-gray-700">All Cities</a>
-        <a href="#" className="block text-sm text-gray-700">Download App</a>
-        <a href="#" className="block text-sm text-gray-700">Corporate Enquiry</a>
-        <a href="#" className="block text-sm text-gray-700">Refer & Earn</a>
-        <a href="#" className="block text-sm text-gray-700">A-List</a>
+        <a href="#" onClick={() => setIsMenuOpen(false)} className="block text-sm text-gray-700">All Cities</a>
+        <a href="#" onClick={() => setIsMenuOpen(false)} className="block text-sm text-gray-700">Download App</a>
+        <a href="#" onClick={() => setIsMenuOpen(false)} className="block text-sm text-gray-700">Corporate Enquiry</a>
+        <a href="#" onClick={() => setIsMenuOpen(false)} className="block text-sm text-gray-700">Refer & Earn</a>
+        <a href="#" onClick={() => setIsMenuOpen(false)} className="block text-sm text-gray-700">A-List</a>
 
         <div>
-          <a href="#" className="block text-sm font-bold text-gray-900">Sign Up</a>
-          <a href="#" className="block py-2 text-sm font-bold text-gray-900">Log In</a>
+          <a href="#" onClick={() => setIsMenuOpen(false)} className="block text-sm font-bold text-gray-900">Sign Up</a>
+          <a href="#" onClick={() => setIsMenuOpen(false)} className="block py-2 text-sm font-bold text-gray-900">Log In</a>
         </div>
       </div>
     </div>

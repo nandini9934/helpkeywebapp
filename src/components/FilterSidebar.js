@@ -16,7 +16,7 @@ const FilterSidebar = ({ onFilterChange }) => {
   };
 
   return (
-    <div className="p-4 bg-white shadow-md">
+    <div className="container mx-auto p-4 bg-white shadow-md">
       <h2 className="font-bold text-lg mb-4">Price Per Night</h2>
       <input
         type="range"

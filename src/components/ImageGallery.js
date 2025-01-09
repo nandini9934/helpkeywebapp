@@ -7,7 +7,7 @@ export function ImageGallery() {
   const { currentImageIndex, nextImage, prevImage } = useImageGallery(hotelImages.length);
 
   return (
-    <div className="relative mt-4">
+    <div className="container mx-auto relative mt-4">
       <div className="relative h-[400px] overflow-hidden">
         <img 
           src={hotelImages[currentImageIndex]} 

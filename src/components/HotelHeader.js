@@ -2,7 +2,7 @@ import React from 'react';
 
 export function HotelHeader() {
   return (
-    <div className="px-4 py-2 flex justify-between items-center">
+    <div className="container mx-auto px-4 py-2 flex justify-between items-center">
       <div>
         <h1 className="text-2xl font-semibold">FabHotel Prime The King's Court With Pool and Bar</h1>
         <div className="flex items-center gap-2 mt-1">

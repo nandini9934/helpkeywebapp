@@ -1,8 +1,17 @@
 import React from 'react';
+import {useNavigate} from  'react-router-dom'
 
 const HotelCard = ({ hotel }) => {
+
+const navigate = useNavigate();
+
+const navigateToHotel =(id)=>
+{
+  navigate('/breadcrumb?propertyid=' + id)
+}
+
   return (
-    <div className="flex items-start p-4 border-b border-gray-200">
+    <div className="container mx-auto flex items-start p-4 cursor-pointer border-b border-gray-200" onClick={()=>navigateToHotel(hotel.id)}>
       <img
         src={hotel.image}
         alt={hotel.name}

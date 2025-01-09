@@ -3,7 +3,7 @@ import HotelCard from './HotelCard';
 
 const HotelList = ({ hotels }) => {
   return (
-    <div className="p-4 bg-white">
+    <div className="container mx-auto p-4 bg-white">
       <h2 className="font-bold text-lg mb-4">
         Showing {hotels.length} Helpkeys
       </h2>

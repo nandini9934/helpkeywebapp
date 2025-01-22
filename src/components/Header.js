@@ -14,6 +14,12 @@ const Header = () => {
     setIsLoginModalOpen(false);
   };
 
+  const handleModalBackgroundClick = (event) => {
+    if (event.target === event.currentTarget) {
+      closeAllModals();
+    }
+  };
+
   return (
     <div className="container mx-auto w-full bg-white">
       <div className="flex justify-between items-center px-6 py-3 text-[#1D2541]">
@@ -108,8 +114,11 @@ const Header = () => {
 
       {/* Sign Up Modal */}
       {isSignUpModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white w-full max-w-md p-6 rounded-lg">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+          onClick={handleModalBackgroundClick}
+        >
+          <div className="bg-white w-full max-w-md m-3 p-6 rounded-lg relative">
             <h2 className="text-xl font-bold mb-4">Sign Up</h2>
             <form>
               <input
@@ -118,13 +127,21 @@ const Header = () => {
                 className="w-full p-2 mb-4 border rounded"
               />
               <input
+                type="phone"
+                placeholder="Phone"
+                className="w-full p-2 mb-4 border rounded"
+              />
+              <input
                 type="password"
                 placeholder="Password"
                 className="w-full p-2 mb-4 border rounded"
               />
-              <button className="w-full bg-blue-600 text-white py-2 rounded">
-                Sign Up
-              </button>
+              <input
+                type="confirmpassword"
+                placeholder="Confirm Password"
+                className="w-full p-2 mb-4 border rounded"
+              />
+              <button className="w-full bg-purple-500 text-white py-2 rounded">Sign Up</button>
             </form>
             <button
               onClick={closeAllModals}
@@ -138,8 +155,11 @@ const Header = () => {
 
       {/* Log In Modal */}
       {isLoginModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white w-full max-w-md p-6 rounded-lg">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+          onClick={handleModalBackgroundClick}
+        >
+          <div className="bg-white w-full max-w-md m-3 p-6 rounded-lg relative">
             <h2 className="text-xl font-bold mb-4">Log In</h2>
             <form>
               <input
@@ -152,9 +172,7 @@ const Header = () => {
                 placeholder="Password"
                 className="w-full p-2 mb-4 border rounded"
               />
-              <button className="w-full bg-blue-600 text-white py-2 rounded">
-                Log In
-              </button>
+              <button className="w-full bg-purple-500 text-white py-2 rounded">Log In</button>
             </form>
             <button
               onClick={closeAllModals}

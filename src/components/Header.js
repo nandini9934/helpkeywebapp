@@ -33,8 +33,8 @@ const Header = () => {
 
         {/* Auth Links for Larger Screens */}
         <div className="hidden md:flex space-x-4 text-sm">
-          <a href="#">Sign Up</a>
-          <a href="#">Log In</a>
+          <a href="/signup">Sign Up</a>
+          <a href="/login">Log In</a>
         </div>
       </div>
 
@@ -47,8 +47,8 @@ const Header = () => {
         <a href="#" onClick={() => setIsMenuOpen(false)} className="block text-sm text-gray-700">A-List</a>
 
         <div>
-          <a href="#" onClick={() => setIsMenuOpen(false)} className="block text-sm font-bold text-gray-900">Sign Up</a>
-          <a href="#" onClick={() => setIsMenuOpen(false)} className="block py-2 text-sm font-bold text-gray-900">Log In</a>
+          <a href="/signup" onClick={() => setIsMenuOpen(false)} className="block text-sm font-bold text-gray-900">Sign Up</a>
+          <a href="/login" onClick={() => setIsMenuOpen(false)} className="block py-2 text-sm font-bold text-gray-900">Log In</a>
         </div>
       </div>
     </div>

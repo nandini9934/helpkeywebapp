@@ -1,11 +1,19 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import  Breadcrumb  from './components/Breadcrumb';
 import HomePage from './homepage';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import { useDispatch, useSelector } from "react-redux";
+import { authUser } from './redux/actions/authActions';
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(()=>
+  {
+    dispatch(authUser());
+  },[])
   return (
     <BrowserRouter>
       <Routes>

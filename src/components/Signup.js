@@ -43,9 +43,9 @@ console.log("hi")
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center">
       <h1 className="text-3xl font-bold mb-4">Sign Up</h1>
-      <div className="bg-white p-6 rounded shadow-md w-80" >
+      <div className="bg-white p-6 rounded shadow-2xl w-80" >
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>} {/* Error message */}
 
 
@@ -110,7 +110,7 @@ console.log("hi")
         </div>
 
         <button
-          className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg"
+          className="w-full py-2 px-4 bg-purple-500 text-white font-semibold rounded-lg"
           onClick ={()=>handleSubmit()}
         >
           Sign Up

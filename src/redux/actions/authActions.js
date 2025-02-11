@@ -5,7 +5,13 @@ const  loginSuccess= (token,msg,error,isAuthenticated)=>
   return {type:"LOGIN_SUCCESS",token:token,msg:msg,error:error,isAuthenticated:isAuthenticated}
 }
 
+const isLoading =()=>
+{
+  return {type:"LOADING",isLoading:true};
+}
+
 export const loginUser = (email, password) => async (dispatch) => {
+   dispatch(isLoading());
   try {
     const response = await axios.post("https://helpkeyapi.onrender.com/api/login", {
       email,
@@ -33,6 +39,7 @@ return {type:"SIGNUP",error:error,msg:msg};
   
  export const signUpAction= (formData)=>async (dispatch)=>
   {
+    dispatch(isLoading());
     console.log("in action")
     try {
       const response = await axios.post("https://helpkeyapi.onrender.com/api/signup", {
@@ -54,6 +61,7 @@ const  authSuccess= (token,isAuthenticated)=>
   }
   
   export const authUser = () => async (dispatch) => {
+    dispatch(isLoading());
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post("https://helpkeyapi.onrender.com/api/authuser", {
@@ -69,5 +77,13 @@ const  authSuccess= (token,isAuthenticated)=>
       //dispatch(loginFailure(error.response?.data?.message || "Login failed"));
     }
   };
+
+  export const logOut =(dispatch)=>
+  {
+ // dispatch(isLoading());
+  localStorage.setItem("token", '');
+  return{type:"LOGOUT"}
+
+  }
   
 

@@ -1,12 +1,15 @@
 import Login from "./Login";
+import Signup from "./Signup"
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "../redux/actions/authActions";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to toggle the menu
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false); // State for Sign Up modal
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false); // State for Log In modal
   const {isAuthenticated} = useSelector((state) => state.auth);
+  const dispatch=useDispatch();
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen); // Toggle the menu open/close
   };
@@ -58,9 +61,9 @@ const Header = () => {
         </div>
 
         {/* Auth Links for Larger Screens */}
-        {!isAuthenticated &&
+        
         <div className="hidden md:flex space-x-4 text-sm">
-          <button
+        {!isAuthenticated ? <><button
             onClick={() => setIsSignUpModalOpen(true)}
             className="text-blue-600 hover:underline"
           >
@@ -71,8 +74,15 @@ const Header = () => {
             className="text-blue-600 hover:underline"
           >
             Log In
-          </button>
-        </div>}
+          </button></> :
+          <button
+            onClick={() => dispatch(logOut())}
+            className="text-blue-600 hover:underline"
+          >
+            Log Out
+          </button>}
+        </div>
+       
       </div>
 
       {/* Mobile View for Links and Auth Links */}
@@ -122,36 +132,7 @@ const Header = () => {
           onClick={handleModalBackgroundClick}
         >
           <div className="bg-white w-full max-w-md m-3 p-6 rounded-lg relative">
-            <h2 className="text-xl font-bold mb-4">Sign Up</h2>
-            <form>
-              <input
-                type="email"
-                placeholder="Email"
-                className="w-full p-2 mb-4 border rounded"
-              />
-              <input
-                type="phone"
-                placeholder="Phone"
-                className="w-full p-2 mb-4 border rounded"
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                className="w-full p-2 mb-4 border rounded"
-              />
-              <input
-                type="confirmpassword"
-                placeholder="Confirm Password"
-                className="w-full p-2 mb-4 border rounded"
-              />
-              <button className="w-full bg-purple-500 text-white py-2 rounded">Sign Up</button>
-            </form>
-            <button
-              onClick={closeAllModals}
-              className="absolute top-2 right-2 text-gray-600 hover:text-black"
-            >
-              ✕
-            </button>
+           <Signup/>
           </div>
         </div>
       )}

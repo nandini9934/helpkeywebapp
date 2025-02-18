@@ -10,10 +10,12 @@ import Loading from './components/Loading';
 import { useState } from "react";
 import { privateAxios } from "./services/axios.service";
 
+
 const App = () => {
 
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const { isLoading } = useSelector((state) => state.auth);
 
   useEffect(() => {
     //request interceptor
@@ -45,7 +47,9 @@ const App = () => {
 
 
   return (
+
     <BrowserRouter>
+      <Loading show={isLoading} />
       <Loading show={loading} />
       <Routes>
         <Route path="/" element={<HomePage />} />

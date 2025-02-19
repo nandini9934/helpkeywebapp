@@ -1,8 +1,49 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const HotelCard = ({ hotel }) => {
   const navigate = useNavigate();
+  const [distance, setDistance] = useState(null);
+
+  // Function to calculate Haversine distance
+  function getDistance(lat1, lon1, lat2, lon2) {
+    const toRad = (angle) => (angle * Math.PI) / 180;
+    const R = 6371; // Radius of Earth in km
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRad(lat1)) *
+      Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c; // Distance in km
+  }
+
+  // Get user's location & calculate distance
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const userLat = position.coords.latitude;
+        const userLon = position.coords.longitude;
+
+        if (hotel.latitude && hotel.longitude) {
+          const hotelLat = parseFloat(hotel.latitude);
+          const hotelLon = parseFloat(hotel.longitude);
+
+          const dist = getDistance(userLat, userLon, hotelLat, hotelLon);
+          setDistance(dist.toFixed(2)); // Round to 2 decimal places
+        }
+      },
+      (error) => {
+        console.error('Error getting location:', error);
+      }
+    );
+  }, [hotel.latitude, hotel.longitude]);
+
 
   const navigateToHotel = (id) => {
     navigate('/breadcrumb?propertyid=' + id);
@@ -23,11 +64,18 @@ const HotelCard = ({ hotel }) => {
         <h2 className="font-bold text-lg">{hotel.servicename}</h2>
         <p className="text-gray-500">{hotel.address}</p>
         <div className="flex items-center text-yellow-500">
-          <span className="font-bold">{hotel.rating || 'N/A'}/5</span>
+          <span className="font-bold">{hotel.rating || 'N/A'}</span>
           <span className="ml-2 text-gray-500">({hotel.reviews || '5'} Reviews)</span>
         </div>
         <p className="text-sm text-gray-600">{hotel.email || 'N/A'}</p>
         <p className="mt-2 text-green-600">{hotel.cancellationPolicy || 'N/A'}</p>
+
+        {/* Show Distance */}
+        {distance && (
+          <p className="mt-2 text-gray-600 font-semibold">
+            📍{distance} km away
+          </p>
+        )}
       </div>
       <div className="text-right">
         <p className="text-lg font-bold text-red-500">₹{hotel.price || 'N/A'}</p>

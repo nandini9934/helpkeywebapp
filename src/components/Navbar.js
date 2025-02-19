@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const Navbar = ({ setCity }) => {
+const Navbar = () => {
     const [location, setLocation] = useState('');
     const [checkInDate, setCheckInDate] = useState('');
     const [checkOutDate, setCheckOutDate] = useState('');
     const [guests, setGuests] = useState(1);
     const navigate = useNavigate();
 
-    const searchhotel = () => {
-        navigate('/breadcrumb'); // Navigates to the '/about' page
-    };
-
     const handleSearch = () => {
-        setCity(location);
+        if (location.trim()) {
+            navigate(`/hotels?city=${encodeURIComponent(location)}`);
+        } else {
+            alert('Please enter a city name');
+        }
     };
 
     return (
@@ -71,23 +71,14 @@ const Navbar = ({ setCity }) => {
 
                 {/* Search Button */}
                 <button
-                    onClick={() => {
-                        handleSearch();
-                    }}
+                    onClick={handleSearch}
                     className="w-[300px] md:w-auto px-6 lg:py-5 py-2 bg-custompurple border border-white text-s font-medium text-white rounded-md hover:bg-[#39446C]"
                 >
                     Search
                 </button>
             </div>
         </div>
-
     );
 };
 
 export default Navbar;
-//take propertyid from url
-//filter selected hotel object from hotel array in useffect
-//show the detail of filtered data on UI.
-
-//Add more attributes to hotel object.
-//make both website reponsive.

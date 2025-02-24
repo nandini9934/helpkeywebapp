@@ -16,6 +16,7 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const { isLoading } = useSelector((state) => state.auth);
+  const { isHotelLoading } = useSelector((state) => state.vendors);
 
   useEffect(() => {
     //request interceptor
@@ -49,8 +50,7 @@ const App = () => {
   return (
 
     <BrowserRouter>
-      <Loading show={isLoading} />
-      <Loading show={loading} />
+      <Loading show={isLoading || isHotelLoading || loading} />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/breadcrumb" element={<Breadcrumb />} />

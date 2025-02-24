@@ -1,19 +1,27 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { nearByVendors, vedorsByName } from '../redux/actions/vendorAction';
+import { useDispatch, useSelector } from 'react-redux';
 
-const Navbar = () => {
+const Navbar = ({ setCity }) => {
+    const dispatch = useDispatch();
     const [location, setLocation] = useState('');
     const [checkInDate, setCheckInDate] = useState('');
     const [checkOutDate, setCheckOutDate] = useState('');
     const [guests, setGuests] = useState(1);
     const navigate = useNavigate();
 
+    const searchhotel = () => {
+        navigate('/breadcrumb'); // Navigates to the '/about' page
+    };
+
     const handleSearch = () => {
-        if (location.trim()) {
-            navigate(`/hotels?city=${encodeURIComponent(location)}`);
-        } else {
-            alert('Please enter a city name');
+        setCity(location);
+        const params ={
+            city:location,
+            propertyType:25
         }
+        dispatch(nearByVendors(params));
     };
 
     return (
@@ -71,13 +79,16 @@ const Navbar = () => {
 
                 {/* Search Button */}
                 <button
-                    onClick={handleSearch}
+                    onClick={() => {
+                        handleSearch();
+                    }}
                     className="w-[300px] md:w-auto px-6 lg:py-5 py-2 bg-custompurple border border-white text-s font-medium text-white rounded-md hover:bg-[#39446C]"
                 >
                     Search
                 </button>
             </div>
         </div>
+
     );
 };
 

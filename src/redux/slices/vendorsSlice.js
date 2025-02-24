@@ -1,42 +1,26 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-// Fetch hotels by user location
+// Fetch vendors automatically on page load
 export const fetchNearbyVendors = createAsyncThunk(
-    'vendors/fetchNearbyVendors',
+    'vendors/fetchNearbyVendorsAuto',
     async ({ latitude, longitude }) => {
         const response = await fetch(
             `https://helpkeyapi.onrender.com/api/nearby-vendors?latitude=${latitude}&longitude=${longitude}`
         );
         const data = await response.json();
-        return data; // Ensure response is JSON
-    }
-);
-
-// Fetch hotels by city name
-export const fetchVendorsByCity = createAsyncThunk(
-    'vendors/fetchVendorsByCity',
-    async (city) => {
-        const response = await fetch(
-            `http://localhost:3000/api/vendors-by-city?city=${city}`
-        );
-        const data = await response.json();
-        return data; // Ensure response is JSON
+        console.log('API Response:', data);  // 👀 Check this in the browser console
+        return data;
     }
 );
 
 const vendorsSlice = createSlice({
-    name: 'vendors',
-    initialState: {
-        vendors: [],
-        isLoading: false,
-        error: null,
-    },
+    name: 'vendorsAuto',
+    initialState: { vendors: [], isLoading: false, error: null },
     reducers: {},
     extraReducers: (builder) => {
         builder
             .addCase(fetchNearbyVendors.pending, (state) => {
                 state.isLoading = true;
-                state.error = null;
             })
             .addCase(fetchNearbyVendors.fulfilled, (state, action) => {
                 state.isLoading = false;
@@ -45,18 +29,6 @@ const vendorsSlice = createSlice({
                     : [];
             })
             .addCase(fetchNearbyVendors.rejected, (state, action) => {
-                state.isLoading = false;
-                state.error = action.error.message;
-            })
-            .addCase(fetchVendorsByCity.pending, (state) => {
-                state.isLoading = true;
-                state.error = null;
-            })
-            .addCase(fetchVendorsByCity.fulfilled, (state, action) => {
-                state.isLoading = false;
-                state.vendors = action.payload;
-            })
-            .addCase(fetchVendorsByCity.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.error.message;
             });

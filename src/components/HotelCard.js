@@ -44,26 +44,25 @@ const HotelCard = ({ hotel }) => {
     );
   }, [hotel.latitude, hotel.longitude]);
 
-
   const navigateToHotel = (id) => {
     navigate('/breadcrumb?propertyid=' + id);
   };
 
   return (
     <div
-      className="container mx-auto flex items-start p-4 cursor-pointer border-b border-gray-200"
+      className="container mx-auto flex flex-col md:flex-row p-4 cursor-pointer border-b border-gray-200"
       onClick={() => navigateToHotel(hotel.id)}
     >
       {/* Replace image with vendor's image, if available */}
       <img
         src={hotel.image || 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=1200'}  // You can add a default image path here
         alt={hotel.servicename}
-        className="w-32 h-24 object-cover rounded-md"
+        className="w-full md:w-32 h-24 object-cover rounded-md"
       />
-      <div className="ml-4 flex-grow">
+      <div className="ml-0 md:ml-4 flex-grow text-center md:text-left">
         <h2 className="font-bold text-lg">{hotel.servicename}</h2>
-        <p className="text-gray-500">{hotel.address}</p>
-        <div className="flex items-center text-yellow-500">
+        <p className="text-gray-500 text-sm md:text-base">{hotel.address}</p>
+        <div className="flex justify-center md:justify-start items-center text-yellow-500">
           <span className="font-bold">{hotel.rating || 'N/A'}</span>
           <span className="ml-2 text-gray-500">({hotel.reviews || '5'} Reviews)</span>
         </div>
@@ -77,7 +76,7 @@ const HotelCard = ({ hotel }) => {
           </p>
         )}
       </div>
-      <div className="text-right">
+      <div className="text-center md:text-right mt-4 md:mt-0">
         <p className="text-lg font-bold text-red-500">₹{hotel.price || 'N/A'}</p>
         <button className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md">
           Select Rooms
@@ -88,4 +87,3 @@ const HotelCard = ({ hotel }) => {
 };
 
 export default HotelCard;
-

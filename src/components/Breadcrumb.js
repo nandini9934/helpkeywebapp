@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Wifi, Star, Utensils, Sparkles } from 'lucide-react';
 import { Calendar } from 'lucide-react';
 import { useImageGallery } from '../hooks/useImageGallery'; // assuming this hook is working
+import axios from "axios";
 
 const Breadcrumb = () => {
   const [searchParams] = useSearchParams();
@@ -22,10 +23,10 @@ const Breadcrumb = () => {
       setError(null);
 
       // Fetch the hotel details (replace the URL with your API endpoint)
-      fetch(`https://helpkeyapi.onrender.com/api/nearby-vendors?propertyid=${propertyid}`)
-        .then((response) => response.json())
-        .then((data) => {
-          setSelectedHotel(data);
+      axios.get(`https://helpkeyapi.onrender.com/api/vendor-by-id`, { params: { id: propertyid } })
+        .then((response) => {
+          setSelectedHotel(response.data);
+          console.log(response.data);
           setLoading(false);  // Set loading to false when data is fetched
         })
         .catch((error) => {
@@ -51,13 +52,14 @@ const Breadcrumb = () => {
     <>
       <div className='container mx-auto'>
         <div className="p-4 text-sm text-gray-600">
-          All Hotels &gt; Hotels in {selectedHotel.city} &gt; {selectedHotel.name}
+          All Hotels &gt; Hotels in {selectedHotel.city} &gt; {selectedHotel.vendors[0]?.servicename
+          }
         </div>
 
         {/* Hotel Name, City, Rating, Reviews */}
         <div className="px-4 py-2 flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-semibold">{selectedHotel.name}</h1>
+            <h1 className="text-2xl font-semibold">{selectedHotel.vendors[0]?.servicename}</h1>
             <div className="flex items-center gap-2 mt-1">
               <span className="text-gray-600">{selectedHotel.city}</span>
               <span className="px-2 py-1 bg-gray-100 rounded-full text-sm">Couple Friendly</span>
@@ -73,9 +75,9 @@ const Breadcrumb = () => {
         <div className="relative mt-4">
           <div className="relative h-[400px] overflow-hidden">
             <img
-              src={selectedHotel.image}
-              alt="Hotel"
-              className="w-full h-full object-cover"
+              src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=1200"
+            alt="Hotel"
+            className="w-full h-full object-cover"
             />
             <button
               onClick={prevImage}

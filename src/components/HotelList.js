@@ -6,7 +6,7 @@ import { nearByVendors} from '../redux/actions/vendorAction';
 
 const HotelList = () => {
     const dispatch = useDispatch();
-    const { vendors, isLoading, error } = useSelector((state) => state.vendors);
+    const { vendors, isHotelLoading, error } = useSelector((state) => state.vendors);
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -32,7 +32,7 @@ const HotelList = () => {
         <div className="container mx-auto p-4">
             <h2 className="text-2xl font-semibold mb-4">Nearby Hotels</h2>
 
-            {isLoading && <p className="text-lg text-gray-500">Loading...</p>}
+            {isHotelLoading && <p className="text-lg text-gray-500">Loading...</p>}
             {error && <p className="text-lg text-red-500">Error: {error}</p>}
 
             {vendors.length > 0 ? (
@@ -40,7 +40,7 @@ const HotelList = () => {
                     <HotelCard key={vendor.id} hotel={vendor} />
                 ))
             ) : (
-                !isLoading && !error && (
+                !isHotelLoading && !error && (
                     <p className="text-lg text-gray-500">No vendors found for your location.</p>
                 )
             )}

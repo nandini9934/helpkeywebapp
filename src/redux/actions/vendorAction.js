@@ -29,6 +29,10 @@ export const nearByVendors = (locationDetails) => async (dispatch) => {
     }
 };
 
+const selectHotel =(hotel)=>
+{
+   return {type:"SELECT_HOTEL",data:hotel}
+}
 
 
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {selectHotel} from '../redux/actions/vendorAction';
 
 const HotelCard = ({ hotel }) => {
   const navigate = useNavigate();
@@ -66,7 +67,6 @@ const HotelCard = ({ hotel }) => {
           <span className="font-bold">{hotel.rating || 'N/A'}</span>
           <span className="ml-2 text-gray-500">({hotel.reviews || '5'} Reviews)</span>
         </div>
-        <p className="text-sm text-gray-600">{hotel.email || 'N/A'}</p>
         <p className="mt-2 text-green-600">{hotel.cancellationPolicy || 'N/A'}</p>
 
         {/* Show Distance */}

@@ -3,7 +3,8 @@ const initialState = {
   error: '',
   msg: '',
   isHotelLoading: false,
-  hotels: []
+  hotels: [],
+  selectedHotel:{}
 };
 
 const vendorsReducer = (state = initialState, action) => {
@@ -28,6 +29,12 @@ const vendorsReducer = (state = initialState, action) => {
         error: action.error,
         isHotelLoading: false
       }
+
+    case "SELECT_HOTEL":
+      return{
+        ...state,
+        selectedHotel:action.data
+      }  
 
     default:
       return state;

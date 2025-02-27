@@ -50,8 +50,8 @@ const BookingPage = () => {
     };
     // Available Coupons List
     const availableCoupons = [
-        { code: "MMTHSBCEMI", discount: 580, description: "₹580 off on HDFC Credit Card EMI" },
-        { code: "MMTSBIEMI", discount: 464, description: "₹464 off on SBI Credit Card EMI" },
+        { code: "HKHSBCEMI", discount: 580, description: "₹580 off on HDFC Credit Card EMI" },
+        { code: "HKSBIEMI", discount: 464, description: "₹464 off on SBI Credit Card EMI" },
         { code: "WELCOME10", discount: 500, description: "10% off for first-time users" },
     ];
 

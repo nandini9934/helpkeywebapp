@@ -8,7 +8,7 @@ import HotelList from './components/HotelList';
 import Footer from './components/Footer';
 import { Amenities } from './components/Amenities';
 import { BookingCard } from './components/Bookingcard';
-import { Breadcrumb } from './components/Breadcrumb';
+// import { Breadcrumb } from './components/Breadcrumb';
 import { HotelHeader } from './components/HotelHeader';
 import { ImageGallery } from './components/ImageGallery';
 

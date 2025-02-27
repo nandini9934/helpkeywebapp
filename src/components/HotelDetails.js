@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Wifi, Star, Utensils, Sparkles } from 'lucide-react';
 import { Calendar } from 'lucide-react';
 import { useImageGallery } from '../hooks/useImageGallery'; // assuming this hook is working
 import axios from "axios";
 
-const Breadcrumb = () => {
+const HotelDetails = () => {
   const [searchParams] = useSearchParams();
   const propertyid = searchParams.get('propertyid');
-
   const { currentImageIndex, nextImage, prevImage } = useImageGallery(1);  // We'll update this dynamically later
-
   const [selectedHotel, setSelectedHotel] = useState(null);
   const [loading, setLoading] = useState(true);  // To track loading state
   const [error, setError] = useState(null);  // To handle any errors during data fetching
+  const navigate = useNavigate();
 
-  // Fetch hotel data based on propertyid
+
+  // Fetch hotel data based on propertyighd
   useEffect(() => {
     if (propertyid) {
       setLoading(true);
@@ -76,8 +76,8 @@ const Breadcrumb = () => {
           <div className="relative h-[400px] overflow-hidden">
             <img
               src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=1200"
-            alt="Hotel"
-            className="w-full h-full object-cover"
+              alt="Hotel"
+              className="w-full h-full object-cover"
             />
             <button
               onClick={prevImage}
@@ -142,7 +142,9 @@ const Breadcrumb = () => {
                 <div>1 × Deluxe Room for 1 Guest</div>
                 <div className="text-xl font-semibold">₹{selectedHotel.price}</div>
               </div>
-              <button className="w-full bg-yellow-400 py-3 rounded-lg font-semibold hover:bg-yellow-500 transition-colors">
+              <button className="w-full bg-yellow-400 py-3 rounded-lg font-semibold hover:bg-yellow-500 transition-colors"
+                onClick={() => navigate("/bookingpage?propertyid="+propertyid)}
+              >
                 Book Now
               </button>
             </div>
@@ -153,7 +155,7 @@ const Breadcrumb = () => {
   );
 };
 
-export default Breadcrumb;
+export default HotelDetails;
 
 function AmenityItem({ icon, label }) {
   return (

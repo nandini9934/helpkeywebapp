@@ -12,7 +12,7 @@ const Navbar = ({ setCity }) => {
     const navigate = useNavigate();
 
     const searchhotel = () => {
-        navigate('/breadcrumb'); // Navigates to the '/about' page
+        navigate('/HotelDetails'); // Navigates to the '/about' page
     };
 
     const handleSearch = () => {

@@ -46,7 +46,7 @@ const HotelCard = ({ hotel }) => {
   }, [hotel.latitude, hotel.longitude]);
 
   const navigateToHotel = (id) => {
-    navigate('/breadcrumb?propertyid=' + id);
+    navigate('/HotelDetails?propertyid=' + id);
   };
 
   return (

@@ -1,33 +1,48 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Wifi, Star, Utensils, Sparkles } from 'lucide-react';
-import { Calendar } from 'lucide-react';
+import { Wifi, Star, Utensils, Sparkles, Calendar } from 'lucide-react';
 import { useImageGallery } from '../hooks/useImageGallery'; // assuming this hook is working
 import axios from "axios";
 
 const HotelDetails = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const propertyid = searchParams.get('propertyid');
-  const { currentImageIndex, nextImage, prevImage } = useImageGallery(1);  // We'll update this dynamically later
+  const { currentImageIndex, nextImage, prevImage } = useImageGallery(1);
   const [selectedHotel, setSelectedHotel] = useState(null);
-  const [loading, setLoading] = useState(true);  // To track loading state
-  const [error, setError] = useState(null);  // To handle any errors during data fetching
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [updating, setUpdating] = useState(false);
   const navigate = useNavigate();
 
+  // Function to format date as "Mon, 25 March 2025"
+  const formatDate = (date) => {
+    return new Date(date).toLocaleDateString('en-GB', {
+      weekday: 'short',
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    });
+  };
 
-  // Fetch hotel data based on propertyighd
+  // Get today's date and tomorrow's date
+  const today = new Date();
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  const [checkInDate, setCheckInDate] = useState(searchParams.get("checkin") || today.toISOString().split("T")[0]);
+  const [checkOutDate, setCheckOutDate] = useState(searchParams.get("checkout") || tomorrow.toISOString().split("T")[0]);
+  const [guests, setGuests] = useState(searchParams.get("guests") || "1 Adult");
+
   useEffect(() => {
     if (propertyid) {
       setLoading(true);
       setError(null);
-
-      // Fetch the hotel details (replace the URL with your API endpoint)
       axios.get(`https://helpkeyapi.onrender.com/api/vendor-by-id`, { params: { id: propertyid } })
         .then((response) => {
           setSelectedHotel(response.data);
           console.log(response.data);
-          setLoading(false);  // Set loading to false when data is fetched
+          setLoading(false);
         })
         .catch((error) => {
           setError('Failed to load hotel details.');
@@ -35,6 +50,14 @@ const HotelDetails = () => {
         });
     }
   }, [propertyid]);
+
+  const updateSearch = () => {
+    setUpdating(true);
+    setTimeout(() => {
+      setSearchParams({ propertyid, checkin: checkInDate, checkout: checkOutDate, guests });
+      setUpdating(false);
+    }, 1000);
+  };
 
   if (loading) {
     return <p>Loading hotel details...</p>;
@@ -52,8 +75,7 @@ const HotelDetails = () => {
     <>
       <div className='container mx-auto'>
         <div className="p-4 text-sm text-gray-600">
-          All Hotels &gt; Hotels in {selectedHotel.city} &gt; {selectedHotel.vendors[0]?.servicename
-          }
+          All Hotels &gt; Hotels in {selectedHotel.city} &gt; {selectedHotel.vendors[0]?.servicename}
         </div>
 
         {/* Hotel Name, City, Rating, Reviews */}
@@ -64,6 +86,7 @@ const HotelDetails = () => {
               <span className="text-gray-600">{selectedHotel.city}</span>
               <span className="px-2 py-1 bg-gray-100 rounded-full text-sm">Couple Friendly</span>
             </div>
+            <p className="text-gray-600 text-sm mt-1">Check-in: {checkInDate} | Check-out: {checkOutDate} | {guests}</p>
           </div>
           <div className="text-right">
             <div className="bg-blue-900 text-white px-3 py-1 rounded-lg text-xl">{selectedHotel.rating}</div>
@@ -99,6 +122,33 @@ const HotelDetails = () => {
           </div>
         </div>
 
+        {/* Change Dates and Guests Section */}
+        <div className="bg-gray-100 p-4 rounded-lg flex justify-between items-center mt-10 mx-6">
+          <div>
+            <h2 className="font-semibold">Change Dates and Guest(s)</h2>
+            <p className="text-sm text-gray-600">Check-in: 2 PM | Check-out: 12 PM</p>
+          </div>
+          <div className="flex gap-2">
+            <input type="date" className="border p-2 rounded-md" value={checkInDate} onChange={(e) => setCheckInDate(e.target.value)} />
+            <input type="date" className="border p-2 rounded-md" value={checkOutDate} onChange={(e) => setCheckOutDate(e.target.value)} />
+            <select className="border p-2 rounded-md" value={guests} onChange={(e) => setGuests(e.target.value)}>
+              <option>1 Adult</option>
+              <option>2 Adults</option>
+              <option>3 Adults</option>
+              <option>4 Adults</option>
+              <option>5 Adults</option>
+              <option>6 Adults</option>
+              <option>7 Adults</option>
+              <option>8 Adults</option>
+              <option>9 Adults</option>
+              <option>10 Adults</option>
+            </select>
+            <button onClick={updateSearch} className="bg-blue-500 text-white px-4 py-2 rounded-md font-semibold">
+              {updating ? "Updating..." : "UPDATE SEARCH"}
+            </button>
+          </div>
+        </div>
+
         {/* Hotel Amenities */}
         <div className="grid md:grid-cols-3 gap-8 p-6">
           <div className="md:col-span-2">
@@ -122,8 +172,11 @@ const HotelDetails = () => {
             </div>
           </div>
 
+
+
           {/* Booking Card */}
-          <div className="bg-gray-50 p-6 rounded-lg">
+          {/* Fabulous Section */}
+          <div className="bg-gray-50 p-6 rounded-lg mt-6">
             <div className="flex justify-between items-center mb-4">
               <h3 className="font-semibold">Fabulous</h3>
               <div className="text-green-600 text-sm">
@@ -133,24 +186,26 @@ const HotelDetails = () => {
             </div>
 
             <div className="flex gap-4 mb-4">
-              <DateDisplay date="03 Jan 2025" day="Friday" />
-              <DateDisplay date="04 Jan 2025" day="Saturday" />
+              <DateDisplay date={formatDate(checkInDate)} />
+              <DateDisplay date={formatDate(checkOutDate)} />
             </div>
 
             <div className="border-t pt-4">
               <div className="flex justify-between items-center mb-4">
-                <div>1 × Deluxe Room for 1 Guest</div>
+                <div>1 × Deluxe Room for {guests}</div>
                 <div className="text-xl font-semibold">₹{selectedHotel.price}</div>
               </div>
               <button className="w-full bg-yellow-400 py-3 rounded-lg font-semibold hover:bg-yellow-500 transition-colors"
-                onClick={() => navigate("/bookingpage?propertyid="+propertyid)}
+                onClick={() => navigate("/bookingpage?propertyid=" + propertyid)}
               >
                 Book Now
               </button>
             </div>
           </div>
         </div>
-      </div>
+      </div >
+
+
     </>
   );
 };
@@ -166,14 +221,14 @@ function AmenityItem({ icon, label }) {
   );
 }
 
-function DateDisplay({ date, day }) {
+function DateDisplay({ date }) {
   return (
     <div className="flex-1">
       <div className="flex items-center gap-2">
         <Calendar className="w-4 h-4" />
-        <span>{date}</span>
+        <span>{(date)}</span>
       </div>
-      <div className="text-sm text-gray-500">{day}</div>
     </div>
   );
 }
+

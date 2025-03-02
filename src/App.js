@@ -10,6 +10,7 @@ import Loading from './components/Loading';
 import { useState } from "react";
 import { privateAxios } from "./services/axios.service";
 import BookingPage from './components/Bookingpage';
+import PaymentPage from './components/Paymentpage';
 
 
 const App = () => {
@@ -58,6 +59,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/BookingPage" element={<BookingPage />} />
+        <Route path="/PaymentPage" element={<PaymentPage />} />
       </Routes>
     </BrowserRouter>
   );

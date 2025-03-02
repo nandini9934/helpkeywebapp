@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const BookingPage = () => {
     const [searchParams] = useSearchParams();
@@ -14,6 +15,7 @@ const BookingPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
     const [guestDetails, setGuestDetails] = useState([
         {
             title: "Mr",
@@ -305,7 +307,9 @@ const BookingPage = () => {
 
                 {/* Book Now Button */}
                 <div className="bg-white shadow-odd rounded-lg p-6">
-                    <button className="w-56 bg-yellow-400 py-3 rounded-md font-semibold hover:bg-yellow-500 transition-colors">
+                    <button className="w-56 bg-yellow-400 py-3 rounded-md font-semibold hover:bg-yellow-500 transition-colors"
+                        onClick={() => navigate("/paymentpage")}
+                    >
                         Pay Now
                     </button>
                 </div>
